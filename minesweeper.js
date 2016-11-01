@@ -63,8 +63,8 @@ var board = { //start of board object
 
 function startGame () {
   // Don't remove this function call: it makes the game work!
-  for (var i = 0; i < board.cells.length;i++) {
-    board.cells[i].surroundingMines = countSurroundingMines(board.cells[i]);
+  for (var i = 0; i < board.cells.length;i++) { //standard 'for' loop to count through the board cells
+    board.cells[i].surroundingMines = countSurroundingMines(board.cells[i]); // counts through the cells checking if there are mines in them in prep for the player clicking on a cell - it will populate the cell with a number. NOT having this function will result in the cells 'working', but no nummbers will appear in them
   }
   document.addEventListener('click', checkForWin)
   document.addEventListener('contextmenu', checkForWin)
@@ -78,17 +78,14 @@ function startGame () {
 // 1. Are all of the cells that are NOT mines visible?
 // 2. Are all of the mines marked?
 function checkForWin () {
-  //for each cell
-   for (var i = 0; i < board.cells.length;i++) {
-     //check for isMine
-     if (board.cells[i].isMine === true){
-       //check for isMarked = false
-       if (board.cells[i].isMarked === false) {
-         //return
-         return//ends the code running
-       }
-     } else if (board.cells[i].hidden === true) {
-       return//ends the code running
+   for (var i = 0; i < board.cells.length;i++) { //for loop to run through each cell in the board
+     if (board.cells[i].isMine === true) { //check if it has a mine in it
+          if (board.cells[i].isMarked === false) { //check if it has been marked
+          return// if not marked, keep playing
+          }
+        }
+      else if (board.cells[i].hidden === true) { //check if there are any cells that are still hidden
+       return//if it has a mine in it, game over
      }
    }/*
    for (var i = 0; i < board.cells.length;i++) {
@@ -111,13 +108,13 @@ function checkForWin () {
 //
 // It will return cell objects in an array. You should loop through
 // them, counting the number of times `cell.isMine` is true.
-function countSurroundingMines (cell) {
-  var count = 0
-  var surroundingCells = lib.getSurroundingCells(cell.row, cell.col);
-  for (var i = 0; i < surroundingCells.length;i++) {
-    if (surroundingCells[i].isMine === true) {
-      count++
+function countSurroundingMines (cell) { //sets up the function name countSurroundingMines
+  var count = 0 // starts a counter at 0
+  var surroundingCells = lib.getSurroundingCells(cell.row, cell.col); //sets up a variable called surroundingCells, and populates it with the result of calling the library getSurroundingCells(on the cell rows & columns)
+  for (var i = 0; i < surroundingCells.length;i++) { // standard for loop to count through the number of surroundingCells
+    if (surroundingCells[i].isMine === true) { // if any of those surroundingCells has a mine in it
+      count++ //increment the count by 1
     }
   }
-  return count
+  return count //gives the count result
 }
